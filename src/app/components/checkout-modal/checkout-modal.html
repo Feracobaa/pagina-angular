@@ -1,0 +1,214 @@
+@if (courseService.isCheckoutOpen()) {
+  <div class="checkout-backdrop animate-fade-in" (click)="!isProcessing() && courseService.closeCheckout()">
+    <div class="checkout-card glass-panel animate-scale-up" (click)="$event.stopPropagation()">
+      
+      <!-- Close Button -->
+      @if (!isProcessing() && !courseService.checkoutSuccess()) {
+        <button class="btn-close-checkout" (click)="courseService.closeCheckout()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      }
+
+      <!-- SUCCESS SCREEN -->
+      @if (courseService.checkoutSuccess()) {
+        <div class="checkout-success-view animate-scale-up">
+          <!-- Confetti Elements -->
+          <div class="confetti-container">
+            <div class="confetti c1"></div>
+            <div class="confetti c2"></div>
+            <div class="confetti c3"></div>
+            <div class="confetti c4"></div>
+            <div class="confetti c5"></div>
+            <div class="confetti c6"></div>
+            <div class="confetti c7"></div>
+            <div class="confetti c8"></div>
+            <div class="confetti c9"></div>
+            <div class="confetti c10"></div>
+          </div>
+
+          <div class="success-icon-ring">
+            <i class="fa-solid fa-circle-check success-check-icon animate-float"></i>
+          </div>
+
+          <h2 class="gradient-accent-text">¡Matrícula Completada!</h2>
+          <p class="success-text">
+            Tu pago ha sido procesado de manera segura. Hemos enviado un correo a <strong>{{ cardEmail() }}</strong> con el acceso inmediato al aula virtual y las credenciales del curso.
+          </p>
+
+          <div class="invoice-summary glass-panel">
+            <div class="invoice-row">
+              <span>Código de Transacción</span>
+              <strong>TXN-102543</strong>
+            </div>
+            <div class="invoice-row">
+              <span>Fecha</span>
+              <strong>01/06/2026</strong>
+            </div>
+            <div class="invoice-row">
+              <span>Estado</span>
+              <span class="success-badge">Aprobado</span>
+            </div>
+          </div>
+
+          <button class="btn-primary" (click)="courseService.closeCheckout()">
+            Ir a Mis Cursos
+          </button>
+        </div>
+      } @else {
+        <!-- PAYMENT FORM SCREEN -->
+        <div class="checkout-grid">
+          
+          <!-- Form Section -->
+          <div class="form-section">
+            <h2 class="checkout-title">Finalizar Inscripción</h2>
+            <p class="checkout-subtitle">Completa los detalles de pago a continuación. Conexión encriptada SSL de 256 bits.</p>
+            
+            <!-- Interactive Card Mockup -->
+            <div class="card-mockup glass-panel animate-float">
+              <div class="card-mockup-top">
+                <i class="fa-solid fa-microchip card-chip"></i>
+                <i class="fa-brands fa-cc-visa card-brand"></i>
+              </div>
+              <div class="card-mockup-number">
+                {{ cardNumber() || '•••• •••• •••• ••••' }}
+              </div>
+              <div class="card-mockup-bottom">
+                <div class="card-holder-col">
+                  <span class="lbl-card">Titular</span>
+                  <span class="val-card">{{ cardName() || 'NOMBRE APELLIDO' }}</span>
+                </div>
+                <div class="card-expiry-col">
+                  <span class="lbl-card">Vence</span>
+                  <span class="val-card">{{ cardExpiry() || 'MM/AA' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form fields -->
+            <form (ngSubmit)="onSubmit()" class="payment-form">
+              <div class="form-group">
+                <label for="name">Nombre en la Tarjeta</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="cardName"
+                  placeholder="Ej. Juan Pérez" 
+                  [ngModel]="cardName()"
+                  (ngModelChange)="cardName.set($event)"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="cardEmail"
+                  placeholder="ejemplo@correo.com" 
+                  [ngModel]="cardEmail()"
+                  (ngModelChange)="cardEmail.set($event)"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="cardNumber">Número de Tarjeta</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-credit-card input-icon"></i>
+                  <input 
+                    type="text" 
+                    id="cardNumber" 
+                    name="cardNumber"
+                    placeholder="4000 1234 5678 9010" 
+                    [ngModel]="cardNumber()"
+                    (input)="onCardNumberInput($event)"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="expiry">Fecha Vencimiento</label>
+                  <input 
+                    type="text" 
+                    id="expiry" 
+                    name="cardExpiry"
+                    placeholder="MM/AA" 
+                    [ngModel]="cardExpiry()"
+                    (input)="onExpiryInput($event)"
+                    required
+                  />
+                </div>
+                <div class="form-group col-6">
+                  <label for="cvv">CVV</label>
+                  <input 
+                    type="password" 
+                    id="cvv" 
+                    name="cardCvv"
+                    placeholder="123" 
+                    [ngModel]="cardCvv()"
+                    (input)="onCvvInput($event)"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                class="btn-primary btn-submit-payment w-full"
+                [disabled]="isProcessing()"
+              >
+                @if (isProcessing()) {
+                  <i class="fa-solid fa-circle-notch fa-spin"></i> Procesando Pago...
+                } @else {
+                  <i class="fa-solid fa-shield-halved"></i> Pagar ${{ courseService.cartTotal() | number:'1.2-2' }}
+                }
+              </button>
+            </form>
+          </div>
+
+          <!-- Summary Sidebar Section -->
+          <div class="summary-section">
+            <h3>Resumen del Pedido</h3>
+            
+            <div class="order-items">
+              @for (item of courseService.cart(); track item.course.id) {
+                <div class="summary-item">
+                  <div class="item-info">
+                    <span class="item-title">{{ item.course.title }}</span>
+                    <span class="item-qty">Cantidad: {{ item.quantity }}</span>
+                  </div>
+                  <span class="item-total-price">${{ (item.course.price * item.quantity) | number:'1.2-2' }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="summary-breakdown">
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span>${{ courseService.cartTotal() | number:'1.2-2' }}</span>
+              </div>
+              <div class="summary-row total">
+                <span>Total a Pagar</span>
+                <span>${{ courseService.cartTotal() | number:'1.2-2' }}</span>
+              </div>
+            </div>
+
+            <!-- Guarantee badge -->
+            <div class="security-guarantee glass-panel">
+              <i class="fa-solid fa-lock security-lock-icon"></i>
+              <div>
+                <h4>Garantía de Satisfacción</h4>
+                <p>Garantía de reembolso de 14 días si no estás conforme con el contenido.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      }
+
+    </div>
+  </div>
+}

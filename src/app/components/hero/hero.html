@@ -1,0 +1,97 @@
+<section class="hero-section">
+  <!-- Glowing background blobs for ambient aesthetic -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <div class="container hero-container">
+    <div class="hero-content">
+      <div class="badge-discount glass-panel animate-float">
+        <i class="fa-solid fa-bolt icon-bolt"></i>
+        <span>Descuento de lanzamiento - <strong>50% OFF</strong> en toda la web</span>
+      </div>
+      
+      <h1 class="hero-title">
+        Forja tu Futuro en <br/>
+        <span class="gradient-accent-text">Tecnología de Vanguardia</span>
+      </h1>
+      
+      <p class="hero-description">
+        Accede a la biblioteca más premium de cursos informáticos prácticos. Diseñados por arquitectos de software e ingenieros líderes para llevar tus habilidades de programación al nivel profesional.
+      </p>
+      
+      <div class="hero-actions">
+        <button class="btn-primary" (click)="scrollToCourses()">
+          <i class="fa-solid fa-rocket"></i> Explorar Cursos
+        </button>
+        <button class="btn-secondary" (click)="courseService.selectedCategory.set('devops'); scrollToCourses()">
+          <i class="fa-solid fa-circle-play"></i> Ver Especialidades
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">15K+</span>
+          <span class="stat-label">Alumnos Activos</span>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">4.9<i class="fa-solid fa-star star-icon"></i></span>
+          <span class="stat-label">Valoración Media</span>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Práctico y Online</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Card Animation / Decorative Panel -->
+    <div class="hero-visual">
+      <div class="visual-card glass-panel">
+        <div class="visual-header">
+          <div class="dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="tab-title">main.ts - DevLearn</span>
+        </div>
+        <div class="visual-body">
+          <pre><code><span class="code-keyword">import</span> &#123; <span class="code-class">DevLearn</span> &#125; <span class="code-keyword">from</span> <span class="code-string">'@devlearn/core'</span>;
+
+<span class="code-comment">// Inicializando carrera tecnológica</span>
+<span class="code-keyword">const</span> student = new <span class="code-class">Developer</span>(&#123;
+  name: <span class="code-string">'Tú'</span>,
+  passion: <span class="code-string">'Código Limpio'</span>,
+  goal: <span class="code-string">'Senior Engineer'</span>
+&#125;);
+
+student.learn(&#123;
+  course: <span class="code-string">'Angular & Next.js'</span>,
+  difficulty: <span class="code-string">'Advanced'</span>
+&#125;).then(() => &#123;
+  console.log(<span class="code-string">'¡Listo para el mercado laboral! 🚀'</span>);
+&#125;);</code></pre>
+        </div>
+      </div>
+      
+      <!-- Mini Floating Badge -->
+      <div class="floating-badge badge-top glass-panel">
+        <i class="fa-brands fa-angular angular-icon"></i>
+        <div>
+          <h4>Angular 21</h4>
+          <p>Curso Actualizado</p>
+        </div>
+      </div>
+      <div class="floating-badge badge-bottom glass-panel">
+        <i class="fa-solid fa-shield-halved security-icon"></i>
+        <div>
+          <h4>Ciberseguridad</h4>
+          <p>Hacking Ético Profesional</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

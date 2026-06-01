@@ -1,0 +1,83 @@
+<footer class="footer-area">
+  <div class="container footer-grid">
+    
+    <!-- Branding Column -->
+    <div class="footer-col branding-col">
+      <a href="#" class="logo-area">
+        <div class="logo-icon-wrapper">
+          <i class="fa-solid fa-graduation-cap logo-icon"></i>
+        </div>
+        <span class="logo-text">Dev<span class="logo-accent">Learn</span></span>
+      </a>
+      <p class="branding-desc">
+        La plataforma líder en educación tecnológica premium. Formamos a los programadores del futuro con metodologías 100% prácticas y enfocadas al mercado laboral.
+      </p>
+      <div class="social-links">
+        <a href="https://github.com/Feracobaa/pagina-angular" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" title="Youtube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- Quick Links Column -->
+    <div class="footer-col">
+      <h3>Explorar</h3>
+      <ul class="footer-links">
+        <li><button (click)="courseService.selectedCategory.set('all')">Todos los Cursos</button></li>
+        <li><button (click)="courseService.selectedCategory.set('frontend')">Desarrollo Front-End</button></li>
+        <li><button (click)="courseService.selectedCategory.set('backend')">Desarrollo Back-End</button></li>
+        <li><button (click)="courseService.selectedCategory.set('devops')">Infraestructura & DevOps</button></li>
+        <li><button (click)="courseService.selectedCategory.set('cybersecurity')">Ciberseguridad Ofensiva</button></li>
+      </ul>
+    </div>
+
+    <!-- Support Column -->
+    <div class="footer-col">
+      <h3>Soporte</h3>
+      <ul class="footer-links">
+        <li><a href="#">Preguntas Frecuentes</a></li>
+        <li><a href="#">Términos de Servicio</a></li>
+        <li><a href="#">Política de Privacidad</a></li>
+        <li><a href="#">Garantía de Reembolso</a></li>
+        <li><a href="#">Contacto / Soporte</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter Column -->
+    <div class="footer-col newsletter-col">
+      <h3>Suscríbete al Boletín</h3>
+      <p>Recibe cupones de descuento exclusivos, guías de código gratuitas y noticias del sector tecnológico.</p>
+      
+      <form (submit)="subscribeNewsletter($event)" class="newsletter-form">
+        <div class="newsletter-input-group">
+          <input 
+            type="email" 
+            placeholder="Introduce tu correo" 
+            [value]="newsletterEmail()"
+            (input)="newsletterEmail.set($any($event.target).value)"
+            required
+            class="newsletter-input"
+          />
+          <button type="submit" class="btn-subscribe">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    <div class="container footer-bottom-container">
+      <span>© 2026 DevLearn Inc. Desarrollado en Angular para Feracoba.</span>
+      <div class="payment-methods">
+        <i class="fa-brands fa-cc-visa" title="Visa"></i>
+        <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+        <i class="fa-brands fa-cc-stripe" title="Stripe"></i>
+        <i class="fa-brands fa-cc-apple-pay" title="Apple Pay"></i>
+      </div>
+    </div>
+  </div>
+</footer>

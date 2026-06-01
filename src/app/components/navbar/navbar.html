@@ -1,0 +1,84 @@
+<header class="navbar-header glass-panel">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <a href="#" class="logo-area">
+      <div class="logo-icon-wrapper">
+        <i class="fa-solid fa-graduation-cap logo-icon"></i>
+      </div>
+      <span class="logo-text">Dev<span class="logo-accent">Learn</span></span>
+    </a>
+
+    <!-- Navigation Links & Categories -->
+    <nav class="nav-links">
+      <button 
+        class="nav-link-btn" 
+        [class.active]="courseService.selectedCategory() === 'all'"
+        (click)="courseService.selectedCategory.set('all')"
+      >
+        Todos
+      </button>
+      <button 
+        class="nav-link-btn" 
+        [class.active]="courseService.selectedCategory() === 'frontend'"
+        (click)="courseService.selectedCategory.set('frontend')"
+      >
+        Front-End
+      </button>
+      <button 
+        class="nav-link-btn" 
+        [class.active]="courseService.selectedCategory() === 'backend'"
+        (click)="courseService.selectedCategory.set('backend')"
+      >
+        Back-End
+      </button>
+      <button 
+        class="nav-link-btn" 
+        [class.active]="courseService.selectedCategory() === 'devops'"
+        (click)="courseService.selectedCategory.set('devops')"
+      >
+        DevOps
+      </button>
+      <button 
+        class="nav-link-btn" 
+        [class.active]="courseService.selectedCategory() === 'cybersecurity'"
+        (click)="courseService.selectedCategory.set('cybersecurity')"
+      >
+        Ciberseguridad
+      </button>
+      <button 
+        class="nav-link-btn" 
+        [class.active]="courseService.selectedCategory() === 'datascience'"
+        (click)="courseService.selectedCategory.set('datascience')"
+      >
+        Data Science
+      </button>
+    </nav>
+
+    <!-- Search & Cart -->
+    <div class="navbar-actions">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input 
+          type="text" 
+          placeholder="Buscar cursos, tecnologías..." 
+          [value]="courseService.searchQuery()"
+          (input)="onSearch($event)"
+          class="search-input"
+        />
+        @if (courseService.searchQuery()) {
+          <button (click)="courseService.searchQuery.set('')" class="clear-search">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        }
+      </div>
+
+      <!-- Cart Button -->
+      <button class="cart-trigger-btn" (click)="courseService.openCart()">
+        <i class="fa-solid fa-cart-shopping cart-icon"></i>
+        @if (courseService.cartCount() > 0) {
+          <span class="cart-badge">{{ courseService.cartCount() }}</span>
+        }
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,54 @@
+<div class="course-card glass-panel">
+  <!-- Image Banner -->
+  <div class="card-image-wrapper">
+    <img [src]="course().imageUrl" [alt]="course().title" class="course-img" loading="lazy" />
+    <span class="badge-level" [attr.data-level]="course().level">{{ course().level }}</span>
+  </div>
+
+  <!-- Content -->
+  <div class="card-content">
+    <div class="card-meta">
+      <span class="badge-category">{{ course().categoryLabel }}</span>
+      <div class="rating-info">
+        <i class="fa-solid fa-star star-icon"></i>
+        <span class="rating-val">{{ course().rating }}</span>
+        <span class="rating-count">({{ course().reviewsCount }})</span>
+      </div>
+    </div>
+
+    <h3 class="course-title">{{ course().title }}</h3>
+    <p class="course-desc">{{ course().description }}</p>
+
+    <!-- Details Quick stats -->
+    <div class="quick-stats">
+      <span><i class="fa-regular fa-clock"></i> {{ course().duration }}</span>
+      <span><i class="fa-regular fa-circle-play"></i> {{ course().lectures }} clases</span>
+    </div>
+
+    <!-- Instructor Info -->
+    <div class="instructor-info">
+      <img [src]="course().instructor.avatar" [alt]="course().instructor.name" class="inst-avatar" />
+      <div class="inst-details">
+        <span class="inst-name">{{ course().instructor.name }}</span>
+        <span class="inst-role">{{ course().instructor.role }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with Price & Actions -->
+  <div class="card-footer">
+    <div class="price-box">
+      <span class="current-price">${{ course().price }}</span>
+      <span class="original-price">${{ course().originalPrice }}</span>
+    </div>
+    
+    <div class="card-actions">
+      <button class="btn-icon-detail" (click)="courseService.openDetails(course())" title="Ver Detalles">
+        <i class="fa-solid fa-circle-info"></i>
+      </button>
+      <button class="btn-add-cart" (click)="courseService.addToCart(course())">
+        <i class="fa-solid fa-cart-plus"></i> Comprar
+      </button>
+    </div>
+  </div>
+</div>

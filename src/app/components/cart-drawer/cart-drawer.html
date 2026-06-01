@@ -1,0 +1,133 @@
+@if (courseService.isCartOpen()) {
+  <div class="cart-backdrop animate-fade-in" (click)="courseService.closeCart()">
+    <div class="cart-panel" (click)="$event.stopPropagation()">
+      <!-- Header -->
+      <div class="cart-header">
+        <div class="cart-header-title">
+          <i class="fa-solid fa-cart-shopping font-indigo"></i>
+          <h2>Tu Carrito</h2>
+          <span class="items-count-badge">{{ courseService.cartCount() }}</span>
+        </div>
+        <button class="btn-close-cart" (click)="courseService.closeCart()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="cart-body">
+        @if (courseService.cart().length === 0) {
+          <div class="empty-cart-state animate-scale-up">
+            <div class="empty-icon-wrapper">
+              <i class="fa-solid fa-basket-shopping"></i>
+            </div>
+            <h3>Tu carrito está vacío</h3>
+            <p>Explora nuestro catálogo e inscríbete en los mejores cursos tecnológicos para dar el siguiente salto profesional.</p>
+            <button class="btn-primary" (click)="courseService.closeCart()">
+              Explorar Cursos
+            </button>
+          </div>
+        } @else {
+          <!-- Cart Items List -->
+          <div class="cart-items-list">
+            @for (item of courseService.cart(); track item.course.id) {
+              <div class="cart-item-card glass-panel">
+                <img [src]="item.course.imageUrl" [alt]="item.course.title" class="item-img" />
+                <div class="item-details">
+                  <h4 class="item-title">{{ item.course.title }}</h4>
+                  <span class="item-instructor">Por {{ item.course.instructor.name }}</span>
+                  <div class="item-price">${{ item.course.price }}</div>
+                  
+                  <!-- Quantity controls -->
+                  <div class="item-controls">
+                    <div class="quantity-picker">
+                      <button 
+                        (click)="courseService.updateCartQuantity(item.course.id, item.quantity - 1)"
+                        class="btn-qty"
+                      >
+                        <i class="fa-solid fa-minus"></i>
+                      </button>
+                      <span class="qty-val">{{ item.quantity }}</span>
+                      <button 
+                        (click)="courseService.updateCartQuantity(item.course.id, item.quantity + 1)"
+                        class="btn-qty"
+                      >
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+                    </div>
+
+                    <button 
+                      class="btn-remove-item" 
+                      (click)="courseService.removeFromCart(item.course.id)"
+                      title="Eliminar curso"
+                    >
+                      <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Footer (Sticky breakdown) -->
+      @if (courseService.cart().length > 0) {
+        <div class="cart-footer-panel">
+          <!-- Promo Code Section -->
+          <div class="promo-section">
+            @if (promoDiscount() > 0) {
+              <div class="promo-applied-badge">
+                <span>{{ promoSuccessMessage() }}</span>
+                <button class="btn-clear-promo" (click)="clearPromo()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            } @else {
+              <div class="promo-input-row">
+                <input 
+                  type="text" 
+                  placeholder="Código promocional (ej. LAUNCH50)" 
+                  [value]="promoInput()"
+                  (input)="promoInput.set($any($event.target).value)"
+                  class="promo-input"
+                  [class.error]="isPromoError()"
+                />
+                <button class="btn-apply-promo" (click)="applyPromo()">
+                  Aplicar
+                </button>
+              </div>
+              @if (isPromoError()) {
+                <span class="promo-error-lbl">Código incorrecto. Intenta con "LAUNCH50"</span>
+              }
+            }
+          </div>
+
+          <!-- Total Breakdown -->
+          <div class="price-breakdown">
+            <div class="breakdown-row">
+              <span>Subtotal</span>
+              <span>${{ courseService.cartTotal() | number:'1.2-2' }}</span>
+            </div>
+            
+            @if (promoDiscount() > 0) {
+              <div class="breakdown-row discount">
+                <span>Descuento Promocional (50%)</span>
+                <span>-${{ (courseService.cartTotal() * promoDiscount()) | number:'1.2-2' }}</span>
+              </div>
+            }
+
+            <div class="breakdown-row total">
+              <span>Total Estimado</span>
+              <span class="total-val">${{ discountedTotal() | number:'1.2-2' }}</span>
+            </div>
+          </div>
+
+          <!-- CTA Checkout -->
+          <button class="btn-primary w-full" (click)="courseService.openCheckout()">
+            Proceder al Pago <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+}

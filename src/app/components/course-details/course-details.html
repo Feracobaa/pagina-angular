@@ -1,0 +1,125 @@
+@if (courseService.selectedCourse(); as course) {
+  <div class="modal-backdrop animate-fade-in" (click)="courseService.closeDetails()">
+    <div class="modal-card glass-panel animate-scale-up" (click)="$event.stopPropagation()">
+      <!-- Header Banner -->
+      <div class="modal-banner">
+        <img [src]="course.imageUrl" [alt]="course.title" class="banner-img" />
+        <div class="banner-overlay"></div>
+        <button class="btn-close-modal" (click)="courseService.closeDetails()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="banner-content">
+          <span class="badge-level" [attr.data-level]="course.level">{{ course.level }}</span>
+          <h2 class="modal-title">{{ course.title }}</h2>
+        </div>
+      </div>
+
+      <!-- Main Columns -->
+      <div class="modal-body-content">
+        <!-- Left Side: Info & Curriculum -->
+        <div class="modal-main-column">
+          <div class="info-block">
+            <h3>Sobre el Curso</h3>
+            <p>{{ course.description }}</p>
+          </div>
+
+          <!-- Skills Gained -->
+          <div class="info-block">
+            <h3>¿Qué aprenderás?</h3>
+            <ul class="skills-list">
+              @for (skill of course.skillsGained; track skill) {
+                <li>
+                  <i class="fa-solid fa-circle-check check-icon"></i>
+                  <span>{{ skill }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Syllabus -->
+          <div class="info-block">
+            <h3>Programa de Estudios</h3>
+            <div class="syllabus-timeline">
+              @for (chapter of course.curriculum; track chapter; let idx = $index) {
+                <div class="timeline-item">
+                  <div class="timeline-marker">
+                    <span class="marker-number">{{ idx + 1 }}</span>
+                  </div>
+                  <div class="timeline-content">
+                    <h4>{{ chapter }}</h4>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Sticky Checkout Box -->
+        <div class="modal-sidebar-column">
+          <div class="sticky-checkout-panel glass-panel">
+            <div class="checkout-price">
+              <span class="lbl-price">Inversión Única</span>
+              <div class="price-row">
+                <span class="price-val">${{ course.price }}</span>
+                <span class="orig-val">${{ course.originalPrice }}</span>
+              </div>
+              <span class="discount-pill">¡Ahorra {{ ((1 - course.price/course.originalPrice)*100) | number:'1.0-0' }}%!</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="sidebar-stats">
+              <div class="sidebar-stat-item">
+                <i class="fa-regular fa-clock icon-indigo"></i>
+                <div>
+                  <strong>Duración</strong>
+                  <span>{{ course.duration }}</span>
+                </div>
+              </div>
+              <div class="sidebar-stat-item">
+                <i class="fa-regular fa-file-video icon-indigo"></i>
+                <div>
+                  <strong>Clases</strong>
+                  <span>{{ course.lectures }} lecciones en video</span>
+                </div>
+              </div>
+              <div class="sidebar-stat-item">
+                <i class="fa-solid fa-globe icon-indigo"></i>
+                <div>
+                  <strong>Acceso</strong>
+                  <span>De por vida e inmediato</span>
+                </div>
+              </div>
+              <div class="sidebar-stat-item">
+                <i class="fa-solid fa-certificate icon-indigo"></i>
+                <div>
+                  <strong>Certificado</strong>
+                  <span>Digital verificable incluido</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Instructor summary -->
+            <div class="sidebar-instructor-box">
+              <img [src]="course.instructor.avatar" [alt]="course.instructor.name" class="sidebar-inst-avatar" />
+              <div class="sidebar-inst-details">
+                <span class="instructor-tag">Instructor</span>
+                <span class="sidebar-inst-name">{{ course.instructor.name }}</span>
+                <span class="sidebar-inst-role">{{ course.instructor.role }}</span>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="sidebar-actions">
+              <button class="btn-primary w-full" (click)="courseService.addToCart(course); courseService.closeDetails(); courseService.openCart()">
+                <i class="fa-solid fa-cart-shopping"></i> Inscribirse Ahora
+              </button>
+              <button class="btn-secondary w-full" (click)="courseService.addToCart(course); courseService.closeDetails()">
+                <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
